@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+
+        <!-- It is necessary to ensure all libraries are in the latest version -->
+        <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta -->
+        <meta charset="utf-8"/>
+        <meta content="initial-scale=1, width=device-width" name="viewport"/>
+
+        <!-- Bootstrap CSS: http://getbootstrap.com/ -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+        <!-- App's own CSS -->
+        <link href="/static/styles.css" rel="stylesheet"/>
+
+        <!-- Google Map: https://developers.google.com/maps/documentation/javascript/ -->
+        <!-- Backup key: AIzaSyCv9URMYIIvmGxt_tZDxmCYZxVGNl9kbmA -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgatq4KgsR2NHXXIG8YxiwncrsEz_xis8&v=3.exp"></script>
+
+        <!-- JQuery: http://jquery.com/ -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+        <!-- Bootstrap JS: http://getbootstrap.com/ -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+        <!-- Typeahead: https://github.com/corejavascript/typeahead.js/blob/master/doc/jquery_typeahead.md -->
+        <!-- Good to know if user just directly gets script content (CDN) through this below:
+             <script src="https://github.com/corejavascript/typeahead.js/raw/master/dist/typeahead.jquery.js"></script>
+             There is a strict MIME type checking being enforced, so that raw files from server are returned,
+             resulting in disability to run scripts.
+             Ref: https://stackoverflow.com/a/18049842
+             Therefore, get it from cdn.rawgit.com (production) or rawgit.com (development) instead -->
+        <script src="https://cdn.rawgit.com/corejavascript/typeahead.js/master/dist/typeahead.jquery.js"></script>
+        <!-- script src="/static/typeahead.js"></script>
+        -->
+
+        <!-- Handlebars: http://handlebarsjs.com/ -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+
+        <!-- app's own JavaScript -->
+        <script src="/static/scripts.js"></script>
+
+        <!-- Testing favicon =D -->
+        <link rel="shortcut icon" href="/static/favicon.ico"/>
+
+        <title>Mashup</title>
+
+    </head>
+    <body>
+
+        <!-- Fill viewport -->
+        <div class="container-fluid">
+
+            <!-- https://developers.google.com/maps/documentation/javascript/tutorial -->
+            <div id="map-canvas"></div>
+
+            <!-- http://getbootstrap.com/css/#forms -->
+            <form id="form">
+                <div class="form-group">
+                    <label class="sr-only" for="q">City, State, Postal Code</label>
+                    <input class="form-control" autocomplete="off" id="q" placeholder="City, State, Postal Code" type="text"/>
+                </div>
+            </form>
+        </div>
+
+    </body>
+</html>

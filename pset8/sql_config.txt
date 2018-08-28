@@ -1,0 +1,14 @@
+CREATE TABLE places (
+    country_code VARCHAR(2),
+    postal_code VARCHAR(20) NOT NULL,
+    place_name VARCHAR(180) NOT NULL,
+    admin_name1 VARCHAR(100),
+    admin_code1 VARCHAR(20),
+    admin_name2 VARCHAR(100),
+    admin_code2 VARCHAR(20),
+    admin_name3 VARCHAR(100),
+    admin_code3 VARCHAR(20),
+    latitude DECIMAL NOT NULL,
+    longitude DECIMAL NOT NULL,
+    accuracy INTEGER
+);

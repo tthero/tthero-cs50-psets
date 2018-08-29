@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    <!-- Use list of data to be put into the table -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Symbol</th>
+                <th scope="col">Shares</th>
+                <th scope="col">Price</th>
+                <th scope="col">Transacted</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+            <tr>
+                <td>{{ item['stock'] }}</td>
+                <td>{{ item['shareflow'] }}</td>
+                <td>{{ item['trn_price'] | usd}}</td>
+                <td>{{ item['trn_time'] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

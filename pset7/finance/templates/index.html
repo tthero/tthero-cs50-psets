@@ -1,0 +1,132 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% macro modal_enabler(m_id, m_title, stock, title, action) -%}
+    <div class="modal fade" id="{{ m_id + stock }}" tabindex="-1" role="dialog" aria-labelledby="{{ m_title + stock }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="{{ m_title + stock }}">{{ title }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {{ caller() }}
+            </div>
+        </div>
+    </div>
+{%- endmacro %}
+
+{% macro bs_enabler(stock_name, buy) -%}
+    {% if buy == 'buy' %}
+        {% call modal_enabler('buyModal', 'buyModalTitle', stock_name, 'Buy Stock: ' + stock_name, 'Buy') %}
+            <form action="/" method="post">
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <input type="hidden" readonly name="buy_stock" value="{{ stock_name }}">
+                    </div>
+                    <div class="form-group">
+                        <input autofocus class="form-control" name="buy_shares" placeholder="Shares" type="number" min="1"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button name="buyer" type="submit" class="btn btn-primary">Buy</button>
+                </div>
+            </form>
+        {% endcall %}
+    {% else %}
+        {% call modal_enabler('sellModal', 'sellModalTitle', stock_name, 'Sell Stock: ' + stock_name, 'Sell') %}
+            <form action="/" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="hidden" readonly name="sell_stock" value="{{ stock_name }}">
+                    </div>
+                    <div class="form-group">
+                        <input autofocus class="form-control" name="sell_shares" placeholder="Shares" type="number" min="1"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button name="seller" type="submit" class="btn btn-primary">Sell</button>
+                </div>
+            </form>
+        {% endcall %}
+    {% endif %}
+{%- endmacro %}
+
+{% block main %}
+    {% for item in items %}
+        {{ bs_enabler(item['stock'], 'buy') }}
+        {{ bs_enabler(item['stock'], 'sell') }}
+    {% endfor %}
+
+    {% call modal_enabler('cashModal', 'cashModalTitle', '', 'Cash in More Money', 'Cash In') %}
+        <form action="/" method="post">
+            <div class="modal-body">
+                <div class="form-group row">
+                    <input type="hidden" readonly name="cash_in" value="CASH">
+                </div>
+                <div class="form-group">
+                    <input autofocus class="form-control" name="cash_val" placeholder="Amount" type="number" min="0" max="10000" step="0.01"/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button name="cashier" type="submit" class="btn btn-primary">Cash In</button>
+            </div>
+        </form>
+    {% endcall %}
+
+    <!-- JINJA TIME TO PUT TABLES INSIDE -->
+    <!-- Use list of data to be put into the table -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Symbol</th>
+                <th scope="col">Name</th>
+                <th scope="col">Shares</th>
+                <th scope="col">Price</th>
+                <th scope="col">TOTAL</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+            <tr>
+                <td>{{ item['stock'] }}</td>
+                <td>{{ item['stock'] }}</td>
+                <td>{{ item['share_sum'] }}</td>
+                <td>{{ item['cur_price'] | usd }}</td>
+                <td>{{ item['total_price'] | usd }}</td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="{{ '#buyModal' + item['stock'] }}">
+                        Buy
+                    </button>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="{{ '#sellModal' + item['stock'] }}">
+                        Sell
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+            <tr>
+                <td colspan="4">CASH</td>
+                <td>{{ c_left[0]['cash'] | usd }}</td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#cashModal">
+                        Cash In
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+                <td colspan="2"><strong>{{ total | usd }}</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}
+

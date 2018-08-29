@@ -1,0 +1,58 @@
+<!-- """Handle requests for / via GET (and POST)""" -->
+
+{% extends "layout.html" %}
+
+{% block body %}
+
+    <div class="col">
+        <form name="simi" action="/compare" enctype="multipart/form-data" method="post">
+            <!--
+            2 sections to upload 2 files:
+            [Button] (before) Select file -> (after) $filename1.txt
+            [Button] (before) Select file -> (after) $filename2.txt
+
+            Use radio buttons?
+            [Radio] Compare lines
+            [Radio] Compare sentences
+            [Radio] Compare substrings (there's more)
+                number of characters/substrings (n) [textbox?]
+
+            [Button] Compare
+            -->
+            <div class="form-group">
+                <label for="formControlFile1">File 1</label>
+                <input type="file" name="file1" class="form-control-file" id="formControlFile1">
+            </div>
+            <div class="form-group">
+                <label for="formControlFile2">File 2</label>
+                <input type="file" name="file2" class="form-control-file" id="formControlFile2">
+            </div>
+
+            <!-- Weird to see that if put input radio 1st before label, the input radio goes too left. Why? -->
+            <div class="form-group">
+                <div class="form-check">
+                    <label class="form-check-label" for="radioLines">
+                        <input class="form-check-input" type="radio" name="algorithm" id="radioLines" value="lines" onclick="javascript:document.simi.length.disabled=true" checked/>
+                        Compare Lines
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label" for="radioSentences">
+                        <input class="form-check-input" type="radio" name="algorithm" id="radioSentences" value="sentences" onclick="javascript:document.simi.length.disabled=true"/>
+                        Compare Sentences
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label" for="radioSubstrings">
+                        <input class="form-check-input" type="radio" name="algorithm" id="radioSubstrings" value="substrings" onclick="javascript:document.simi.length.disabled=false"/>
+                        Compare Substrings
+                        <input class="form-control" type="number" min="1" name="length" placeholder="of number n" disabled/>
+                    </label>
+
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-dark">Compare</button>
+        </form>
+    </div>
+{% endblock %}
